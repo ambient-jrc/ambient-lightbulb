@@ -106,20 +106,16 @@ proto.connectDev = function (message, target, callback) {
         chrome.socket.create('tcp', function (socket) {
             var socketId = socket.socketId;            
             chrome.socket.setKeepAlive(socketId, true, function (result) {
-                if (result != 0) {
-                    me.handleError("set keepalive failed", "error");
-                } else {
-                    chrome.socket.connect(socketId, devAddr, parseInt(port,10), function (result) {
-                        if (result != 0) {
-                            me.handlerError("failed to connected", "error");
-                        } else {
-                            led.connected = true;
-                            me.onInfo("Connected successfully");
-                            led.socket = socketId;
-                            me.pollDev(led);
-                        }
-                    });
-                }
+                chrome.socket.connect(socketId, devAddr, parseInt(port,10), function (result) {
+                    if (result != 0) {
+                        me.handlerError("failed to connected", "error");
+                    } else {
+                        led.connected = true;
+                        me.onInfo("Connected successfully");
+                        led.socket = socketId;
+                        me.pollDev(led);
+                    }
+                });
             });
         });
     } else {
