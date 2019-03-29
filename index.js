@@ -75,13 +75,22 @@ function getTemp(callback) {
 
 
 
-function yeelight_sleep(){
-  let message = '{"id":0,"method":"set_power","params":["off", "smooth"]}';
+function yeelight_sleep_off(){
+  var message = '{"id":0,"method":"set_power","params":["off", "smooth"]}';
   rtm({
     type: 'request',
     message: message
   });
 }
+
+function yeelight_sleep_on(){
+  var message = '{"id":1,"method":"set_power","params":["on", "smooth", 500]}';
+  rtm({
+    type: 'request',
+    message: message
+  });
+}
+
 function yeelight_sleep_thirty(){
   setTimeout(yeelight_sleep(), 30000);
 }
@@ -89,10 +98,8 @@ function yeelight_sleep_five(){
   setTimeout(yeelight_sleep(), 5000);
 }
 
-
-
 function init() {
-    var messageInputBox = document.getElementById('input-box');
+    let messageInputBox = document.getElementById('input-box');
     messageInputBox.addEventListener('keydown', function (e) {
         if (e.keyCode == 13) {
             sendMessage();
