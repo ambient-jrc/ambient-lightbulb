@@ -44,13 +44,22 @@ getTemp(function(temp) {
     temp_brightness(obj.main.temp);
 })
 
-function yeelight_sleep(){
+function yeelight_sleep_off(){
   var message = '{"id":0,"method":"set_power","params":["off", "smooth"]}';
   rtm({
     type: 'request',
     message: message
   });
 }
+
+function yeelight_sleep_on(){
+  var message = '{"id":1,"method":"set_power","params":["on", "smooth", 500]}';
+  rtm({
+    type: 'request',
+    message: message
+  });
+}
+
 function yeelight_sleep_thirty(){
   setTimeout(yeelight_sleep(), 30000);
 }
