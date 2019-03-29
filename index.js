@@ -27,12 +27,69 @@ function sendMessage() {
 
 // toggles the power of the lightbulb when called
 function togglePower() {
-  var message = '{"id":1,"method":"toggle","params":[]}'
+  let message = '{"id":1,"method":"toggle","params":[]}'
   rtm({
     type: 'request',
     message: message
   });
 }
+
+// changes the color temperature of the lightbulb based on the temperature
+function tempBrightness(temp) {
+//turn the power on, if already on, this will not turn it off
+//Needed because 'set_bright' only works if the bulb is on
+  let message;
+  if (temp < 65) {
+    message = '{"id":1,"method":"set_ct_abx","params":[6500, "smooth", 500]}';
+    rtm({
+      type: 'request',
+      message: message
+    });
+  } else if (temp > 75) {
+    message = '{"id":1,"method":"set_ct_abx","params":[2700, "smooth", 500]}';
+    rtm({
+      type: 'request',
+      message: message
+    });  
+  } else {
+    message = '{"id":1,"method":"set_ct_abx","params":[3500, "smooth", 500]}';
+    rtm({
+      type: 'request',
+      message: message
+    });  
+  }
+}
+
+// fetches a JSON from openweathermap.org based on the location given and
+// returns it to the callback function for it to use
+function getTemp(callback) {
+    const http = new XMLHttpRequest();
+    const url = "https://api.openweathermap.org/data/2.5/weather?q=Honolulu,usa&APPID=c4cba4191bf19aa590a4e6d7c6edb208";
+    http.open("GET", url);
+    http.send();
+
+    http.onreadystatechange = (e) => {       
+      callback(http.responseText);
+    }
+}
+
+
+
+function yeelight_sleep(){
+  let message = '{"id":0,"method":"set_power","params":["off", "smooth"]}';
+  rtm({
+    type: 'request',
+    message: message
+  });
+}
+function yeelight_sleep_thirty(){
+  setTimeout(yeelight_sleep(), 30000);
+}
+function yeelight_sleep_five(){
+  setTimeout(yeelight_sleep(), 5000);
+}
+
+
 
 function init() {
     var messageInputBox = document.getElementById('input-box');
@@ -49,10 +106,26 @@ function init() {
   };
 
   // for when the on/off button gets clicked
-  var powerButton = document.getElementById('power-button');
+  let powerButton = document.getElementById('power-button');
   powerButton.onclick = function() {
       togglePower();
   };
+
+  // for changing to temperature mode
+  let tempButton = document.getElementById('temp-button');
+  tempButton.onclick = function() {
+    getTemp(function(temp) {
+    // anonymous callback function
+    let obj = JSON.parse(temp);
+    tempBrightness(obj.main.temp);
+    });
+  }
+
+  let tempDebug = document.getElementById('temp-debug');
+  let tempInput = document.getElementById('temp-input');
+  tempDebug.onclick = function() {
+    tempBrightness(parseInt(tempInput.value));
+  }
 
   var splitter = document.getElementById('splitter');
   chrome.storage.local.get('input-panel-size', function (obj) {
