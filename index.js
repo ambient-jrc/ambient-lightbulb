@@ -25,6 +25,15 @@ function sendMessage() {
   messageInputBox.value = '';
 }
 
+// toggles the power of the lightbulb when called
+function togglePower() {
+  var message = '{"id":1,"method":"toggle","params":[]}'
+  rtm({
+    type: 'request',
+    message: message
+  });
+}
+
 function init() {
     var messageInputBox = document.getElementById('input-box');
     messageInputBox.addEventListener('keydown', function (e) {
@@ -33,9 +42,16 @@ function init() {
         }
     });
 
+  // follow this pattern for buttons
   var closeBox = document.getElementById('close');
   closeBox.onclick = function () {
       chrome.app.window.current().close();
+  };
+
+  // for when the on/off button gets clicked
+  var powerButton = document.getElementById('power-button');
+  powerButton.onclick = function() {
+      togglePower();
   };
 
   var splitter = document.getElementById('splitter');
