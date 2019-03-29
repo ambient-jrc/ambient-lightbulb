@@ -62,6 +62,7 @@ function tempBrightness(temp) {
 
 // fetches a JSON from openweathermap.org based on the location given and
 // returns it to the callback function for it to use
+// API's temperatures are in kelvin
 function getTemp(callback) {
     const http = new XMLHttpRequest();
     const url = "https://api.openweathermap.org/data/2.5/weather?q=Honolulu,usa&APPID=c4cba4191bf19aa590a4e6d7c6edb208";
@@ -71,6 +72,15 @@ function getTemp(callback) {
     http.onreadystatechange = (e) => {       
       callback(http.responseText);
     }
+}
+
+// function to convert an integer from kelvin to fahrenheit
+// formula: (K − 273.15) × 9/5 + 32 = °F
+function convertTemp(kelvin) {
+  let fahr = ((kelvin - 273.15) * (9 / 5)) + 32;
+  console.log(kelvin);
+  console.log(fahr);
+  return fahr;
 }
 
 
@@ -124,7 +134,7 @@ function init() {
     getTemp(function(temp) {
     // anonymous callback function
     let obj = JSON.parse(temp);
-    tempBrightness(obj.main.temp);
+    tempBrightness(convertTemp(obj.main.temp));
     });
   }
 
