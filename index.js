@@ -86,7 +86,7 @@ function convertTemp(kelvin) {
 
 
 function yeelight_sleep_off(){
-  var message = '{"id":0,"method":"set_power","params":["off", "smooth"]}';
+  var message = '{"id":1,"method":"set_power","params":["off", "smooth", 500]}';
   rtm({
     type: 'request',
     message: message
@@ -101,11 +101,14 @@ function yeelight_sleep_on(){
   });
 }
 
+// timed event functions
+// call given function after a given time
+// setTimeout uses function references instead of function calls
 function yeelight_sleep_thirty(){
-  setTimeout(yeelight_sleep(), 30000);
+  setTimeout(yeelight_sleep_off, 30000);
 }
 function yeelight_sleep_five(){
-  setTimeout(yeelight_sleep(), 5000);
+  setTimeout(yeelight_sleep_off, 5000);
 }
 
 function init() {
@@ -138,12 +141,24 @@ function init() {
     });
   }
 
+  // for debugging the temperature functions
+  // able to enter your own temperature value
   let tempDebug = document.getElementById('temp-debug');
   let tempInput = document.getElementById('temp-input');
   tempDebug.onclick = function() {
     tempBrightness(parseInt(tempInput.value));
   }
 
+  // for the sleep buttons
+  let sleepFive = document.getElementById('sleep-5');
+  sleepFive.onclick = function() {
+    yeelight_sleep_five();
+  };
+
+  let sleepThirty = document.getElementById('sleep-30');
+  sleepThirty.onclick = function() {
+    yeelight_sleep_thirty();
+  };
   var splitter = document.getElementById('splitter');
   chrome.storage.local.get('input-panel-size', function (obj) {
     if (obj['input-panel-size']) {
