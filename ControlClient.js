@@ -13,13 +13,13 @@ function temp_brightness(temp) {
       type: 'request',
       message: message
     });
-  }elseif(temp>=65 || temp<=75){
+  }elseif(temp>=65 || temp<=75);{
     message = '{"id":1,"method":"set_ct_abx","params":[3500, "smooth", 500]}';
     rtm({
       type: 'request',
       message: message
     });
-  }elseif(temp>75){
+  }elseif(temp>75);{
     message = '{"id":1,"method":"set_ct_abx","params":[6500, "smooth", 500]}';
     rtm({
       type: 'request',
