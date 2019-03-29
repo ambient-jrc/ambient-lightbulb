@@ -8,19 +8,19 @@ function temp_brightness(temp) {
     message: message
   });
   if(temp < 65){
-    var message = '{"id":1,"method":"set_ct_abx","params":[1700, "smooth", 500]}';
+    message = '{"id":1,"method":"set_ct_abx","params":[1700, "smooth", 500]}';
     rtm({
       type: 'request',
       message: message
     });
   }elseif(temp>=65 || temp<=75){
-    var message = '{"id":1,"method":"set_ct_abx","params":[3500, "smooth", 500]}';
+    message = '{"id":1,"method":"set_ct_abx","params":[3500, "smooth", 500]}';
     rtm({
       type: 'request',
       message: message
     });
   }elseif(temp>75){
-    var message = '{"id":1,"method":"set_ct_abx","params":[6500, "smooth", 500]}';
+    message = '{"id":1,"method":"set_ct_abx","params":[6500, "smooth", 500]}';
     rtm({
       type: 'request',
       message: message
