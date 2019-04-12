@@ -2,15 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 import 'semantic-ui-css/semantic.min.css';
-import { Container, Header } from 'semantic-ui-react';
+import TopMenu from './top_menu';
+import WeatherMap from './weather_map';
 
 class AmbientWeather extends React.Component {
 	
 	render() {
 		return (
-			<Container textAlign='center'>
-				<Header as='h1'>Ambient Weather</Header>
-			</Container>
+			<div>
+				<TopMenu />
+				<WeatherMap />
+			</div>
 		);
 	}
 }

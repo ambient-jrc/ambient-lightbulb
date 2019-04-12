@@ -1,0 +1,11 @@
+.ui.topmenu.menu {
+	margin: 0px;
+	border-radius: 0px;
+}
+
+.ui.menu .item {
+}
+
+.ui.menu .header {
+	color: white !important;
+}
