@@ -9,3 +9,10 @@
 .ui.menu .header {
 	color: white !important;
 }
+
+.weather-map-background {
+  padding: 30px 10px 30px 10px;
+  background: linear-gradient( rgba(0,0,0,.3), rgba(0,0,0,.3) ),
+  url('http://www.orangesmile.com/common/img_city_maps/oahu-hawaii-map-1.jpg') no-repeat center center fixed;
+  background-size: cover;
+}

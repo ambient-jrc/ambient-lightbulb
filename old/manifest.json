@@ -1,0 +1,30 @@
+{
+    "manifest_version": 2,
+
+    "name": "Ambient Weather",
+    "description": "This exention is for displaying the weather of Oahu wit visual aids, with lightbulb support",
+    "version": "0.0.1",
+
+    "browser_action": {
+        "default_popup": "index.html",
+        "default_title": "Open the popup"
+    },
+
+    "content_security_policy": "script-src 'self' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='; object-src 'self'",
+
+    "icons": {
+        "128": "128.png"
+    },
+
+    "chrome_url_overrides": {
+    "newtab": "index.html"
+    },
+
+    "permissions": [
+        "tabs",
+        "storage",
+        {
+          "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership", "tcp-connect:*:*"]
+        }
+    ]
+}
