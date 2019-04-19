@@ -12,8 +12,6 @@ function rtm(message, callback) {
   }
 }
 
-// Add found devices to the lightbulb connection window
-// as form of list elements 
 function addDevice(did, location) {
   var devList = document.getElementById('led-list');
   var devItem = document.createElement('li');
@@ -23,11 +21,7 @@ function addDevice(did, location) {
   devList.appendChild(devItem);
 }
 
-// Initialization of the lightbulb connection window
-// makes the list elements clickable as well as adding to the list
-// available lightbulbs
 function initConnect(list) {
-  // Clicking on list elements will connect the app to the lightbulb
   document.getElementById('led-list').addEventListener(
       "click",function(e) {
           rtm({

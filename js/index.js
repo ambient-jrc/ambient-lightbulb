@@ -1,5 +1,6 @@
 const deviceList = [];
 
+// Runtime machine for messaging other parts of the chrome app
 function rtm(message, callback) {
   if (callback) {
     chrome.runtime.sendMessage(chrome.runtime.id, message, callback);
@@ -19,7 +20,7 @@ function onInitConnect(appWindow) {
     });
 }
 
-function addDevice(did, loc) {
+function listDevice(did, loc) {
   let device = {did: did, loc: loc};
   deviceList.push(device);
 }
@@ -27,19 +28,16 @@ function addDevice(did, loc) {
 // Bind the functions to the buttons
 function init() {
 
-  // follow this pattern for buttons
   var closeBox = document.getElementById('close');
   closeBox.onclick = function () {
       chrome.app.window.current().close();
   };
 
-  // for when the on/off button gets clicked
   let powerButton = document.getElementById('power-button');
   powerButton.onclick = function() {
       togglePower();
   };
 
-  // for changing to temperature mode
   let tempButton = document.getElementById('temp-button');
   tempButton.onclick = function() {
     getTemp(function(temp) {
@@ -61,7 +59,6 @@ function init() {
   }
 
 
-  // for the sleep buttons
   let sleepFive = document.getElementById('sleep-5');
   sleepFive.onclick = function() {
     yeelight_sleep_five();
@@ -72,7 +69,6 @@ function init() {
     yeelight_sleep_thirty();
   };
 
-  // For creating the connect-lightbulb window
   let newWindow = document.getElementById('new-window');
   newWindow.onclick = () => {
     chrome.app.window.create('connect.html', {
@@ -98,7 +94,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         console.log(message);
         break;
     case 'add-device':
-        addDevice(message.did, message.location);
+        listDevice(message.did, message.location);
         console.log("device added?");
         break;
     }
