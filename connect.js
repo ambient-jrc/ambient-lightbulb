@@ -35,6 +35,8 @@ function initConnect(list) {
               message: 'Contact [' + e.target.textContent  + '] ...' ,
               target: e.target.id
           });
+          var element = document.getElementById('status');
+          element.innerHTML = "Connected to " + e.target.textContent;
       });
 
   for (let item of list) {
