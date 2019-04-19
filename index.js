@@ -83,8 +83,6 @@ function convertTemp(kelvin) {
   return fahr;
 }
 
-
-
 function yeelight_sleep_off(){
   var message = '{"id":1,"method":"set_power","params":["off", "smooth", 500]}';
   rtm({
@@ -152,6 +150,20 @@ function init() {
     tempBrightness(parseInt(tempInput.value));
   }
 
+  // For creating the connect-lightbulb window
+  let newWindow = document.getElementById('new-window');
+  newWindow.onclick = () => {
+    chrome.app.window.create('connect.html', {
+      id: 'connect-window',
+      minHeight: 300,
+      minWidth: 200,
+      bounds: {
+        height: 400,
+        width: 300
+      }
+    }, onInitConnect);
+  };
+
   // for the sleep buttons
   let sleepFive = document.getElementById('sleep-5');
   sleepFive.onclick = function() {
@@ -162,71 +174,26 @@ function init() {
   sleepThirty.onclick = function() {
     yeelight_sleep_thirty();
   };
-  var splitter = document.getElementById('splitter');
-  chrome.storage.local.get('input-panel-size', function (obj) {
-    if (obj['input-panel-size']) {
-      var inputPanel = document.getElementById('input-panel');
-      inputPanel.style.height = obj['input-panel-size'] + 1 + 'px';
-    }
-  });
-  splitter.onmousedown = function (e) {
-    if (e.button != 0) {
-      return;
-    }
-    e.stopPropagation();
-    e.preventDefault();
-    var inputPanel = document.getElementById('input-panel');
-    var totalHeight = document.body.scrollHeight;
-    var panelHeight = inputPanel.scrollHeight;
-    var startY = e.pageY;
-    var MouseMove;
-    document.addEventListener('mousemove', MouseMove = function (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      var dy = e.pageY - startY;
-      if (panelHeight - dy < 120) {
-        dy = panelHeight - 120;
-      }
-      if (totalHeight - panelHeight + dy < 120) {
-        dy = 120 - totalHeight + panelHeight;
-      }
-      inputPanel.style.height = panelHeight - dy + 1 + 'px';
-      chrome.storage.local.set({'input-panel-size': panelHeight - dy});
-    });
-      document.addEventListener('mouseup', function MouseUp(e) {
-          MouseMove(e);
-          document.removeEventListener('mousemove', MouseMove);
-          document.removeEventListener('mouseup', MouseUp);
-    });
-  };
+};
 
-  document.getElementById('led-list').addEventListener(
-      "click",function(e) {
-          rtm({
-              type: 'connect',
-              message: 'Contact [' + e.target.textContent  + '] ...' ,
-              target: e.target.id
-          });
-      });
+function onInitConnect(appWindow) {
+    appWindow.show();
+    var document = appWindow.contentWindow.document;
+    document.addEventListener('DOMContentLoaded', function () {
+        rtm({
+                type: 'init-connect'
+            });
+    });
 }
 
-
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  var newMessageLi;
-  var messages = document.getElementById('messages');
   if (message) {
     switch (message.type) {
     case 'init':
         init();
         break;
-    case 'add-device':
-        addDevice(message.did, message.location);
-        break;
     case 'info':
-        newMessageLi = document.createElement('li');
-        newMessageLi.textContent = message.message;
-        newMessageLi.setAttribute("class", message.level);
-        messages.appendChild(newMessageLi);
+        console.log(message);
         break;
     }
   }
