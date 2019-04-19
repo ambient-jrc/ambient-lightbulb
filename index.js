@@ -1,3 +1,5 @@
+const deviceList = [];
+
 function rtm(message, callback) {
   if (callback) {
     chrome.runtime.sendMessage(chrome.runtime.id, message, callback);
@@ -6,14 +8,14 @@ function rtm(message, callback) {
   }
 }
 
-function addDevice(did, location) {
-  var devList = document.getElementById('led-list');
-  var devItem = document.createElement('li');
+// function addDevice(did, location) {
+//   var devList = document.getElementById('led-list');
+//   var devItem = document.createElement('li');
 
-  devItem.textContent = did + ' @ ' + location;
-  devItem.id = did;
-  devList.appendChild(devItem);
-}
+//   devItem.textContent = did + ' @ ' + location;
+//   devItem.id = did;
+//   devList.appendChild(devItem);
+// }
 
 function sendMessage() {
   var messageInputBox = document.getElementById('input-box');
@@ -181,9 +183,15 @@ function onInitConnect(appWindow) {
     var document = appWindow.contentWindow.document;
     document.addEventListener('DOMContentLoaded', function () {
         rtm({
-                type: 'init-connect'
+                type: 'init-connect',
+                list: deviceList,       // list of devices found
             });
     });
+}
+
+function addDevice(did, loc) {
+  let device = {did: did, loc: loc};
+  deviceList.push(device);
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
@@ -194,6 +202,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         break;
     case 'info':
         console.log(message);
+        break;
+    case 'add-device':
+        addDevice(message.did, message.location);
+        console.log("device added?");
         break;
     }
   }
