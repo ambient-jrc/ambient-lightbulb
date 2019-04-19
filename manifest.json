@@ -7,9 +7,9 @@
   "app": {
     "background": {
       "scripts": [
-        "MulticastSocket.js",
-        "ControlClient.js",
-        "background.js"]
+        "js/MulticastSocket.js",
+        "js/ControlClient.js",
+        "js/background.js"]
     }
   },
 
