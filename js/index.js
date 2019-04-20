@@ -5,37 +5,65 @@ const locations = [
   {
     id: "5856195",
     name: "Honolulu",
+    pos: {
+      x: 470,
+      y: 487
+    }
   },   // honolulu
   {
     id: "5853992",
-    name: "Wahiawa"
+    name: "Wahiawa",
+    pos: {
+      x: 295,
+      y: 265 
+    }
   },   // Wahiawa
   { 
     id: "5856194",
-    name: "Kapolei"
+    name: "Kapolei",
+    pos: {
+      x: 259,
+      y: 419 
+    }
+
   },    // Kapolei
   { id: "5847486",
-    name: "Kailua"
+    name: "Kailua",
+    pos: {
+      x: 528,
+      y: 370 
+    }
+
   },     // Kailua
   {
     id: "5852824",
-    name: "Pupukea"
+    name: "Pupukea",
+    pos: {
+      x: 259,
+      y: 99 
+    }
+
   },    // Pupukea
   { 
     id: "5850511",
-    name: "Makaha"
+    name: "Makaha",
+    pos: {
+      x: 88,
+      y: 289 
+    }
+
   }     // Makaha
 ];    
 
-function createMarkers() {
+function createMarkers(locations) {
   var background = document.getElementById('background-container');
 
-  for (let i = 0; i < 5; i++) {
-    let marker = document.createElement('p');
-    marker.textContent = "" + i;
-    marker.id = i;
-    marker.style.top = (i * 100) + "px";
-    marker.style.left = (i * 100) + "px";
+  for (let loc of locations) {
+    let marker = document.createElement('button');
+    marker.textContent = loc.name; 
+    marker.id = loc.id;
+    marker.style.top = loc.pos.y +  "px";
+    marker.style.left = loc.pos.x + "px";
     marker.style.position = "absolute";
     background.appendChild(marker);
   }
@@ -65,6 +93,14 @@ function onInitConnect(appWindow) {
 function listDevice(did, loc) {
   let device = {did: did, loc: loc};
   deviceList.push(device);
+}
+
+function findMousePos(event) {
+  const mousePos = {
+    x: event.clientX,
+    y: event.clientY
+  };
+  console.log(mousePos);
 }
 
 // Bind the functions to the buttons
@@ -127,7 +163,9 @@ function init() {
     }, onInitConnect);
   };
 
-  createMarkers();
+  createMarkers(locations);
+
+  document.addEventListener("click", findMousePos);
 };
 
 
