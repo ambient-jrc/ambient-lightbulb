@@ -1,6 +1,6 @@
 const deviceList = [];
 // For reqeusting data from openweathermap
-const appID = "c4cba4191bf19aa590a4e6d7c6edb208";
+const appID = config.API_KEY;
 const locations = [
   {
     id: "5856195",
