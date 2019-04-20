@@ -1,4 +1,32 @@
 const deviceList = [];
+// For reqeusting data from openweathermap
+const appID = "c4cba4191bf19aa590a4e6d7c6edb208";
+const locations = [
+  {
+    id: "5856195",
+    name: "Honolulu",
+  },   // honolulu
+  {
+    id: "5853992",
+    name: "Wahiawa"
+  },   // Wahiawa
+  { 
+    id: "5856194",
+    name: "Kapolei"
+  },    // Kapolei
+  { id: "5847486",
+    name: "Kailua"
+  },     // Kailua
+  {
+    id: "5852824",
+    name: "Pupukea"
+  },    // Pupukea
+  { 
+    id: "5850511",
+    name: "Makaha"
+  }     // Makaha
+];    
+
 
 // Runtime machine for messaging other parts of the chrome app
 function rtm(message, callback) {
@@ -27,7 +55,9 @@ function listDevice(did, loc) {
 
 // Bind the functions to the buttons
 function init() {
-
+ 
+  retrieveWeather(locations);
+  
   var closeBox = document.getElementById('close');
   closeBox.onclick = function () {
       chrome.app.window.current().close();
@@ -42,11 +72,12 @@ function init() {
   tempButton.onclick = function() {
     getTemp(function(temp) {
     // anonymous callback function
-    try {let obj = JSON.parse(temp);
-    tempBrightness(convertTemp(obj.main.temp));
-    } catch(error) {
-      console.log("error");
-    }
+      try {
+        let obj = JSON.parse(temp);
+        tempBrightness(convertTemp(obj.main.temp));
+      } catch(error) {
+        console.log("error");
+      }
     });
   }
 
