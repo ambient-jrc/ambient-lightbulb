@@ -281,3 +281,5 @@ input {
     display: block;
     width: 50%;
 }
+
+#mapid { height: 180px; }

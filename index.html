@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Yeelight LED Console</title>
     <link href="index.css" rel="stylesheet"/>
+    <link href="leaflet/leaflet.css" rel="stylesheet"/>
+    <script src="leaflet/leaflet.js"></script>
     <script src="js/Collection.js"></script>
     <script src="js/temperature.js"></script>
     <script src="js/index.js"></script>
@@ -17,6 +19,7 @@
     <button id="close" href="#">&times;</button>
 </div>
 <div id="container">
+    <div id="mapid"></div>
     <div id="button-grouping">
             <button id="power-button">Toggle power</button>
             <button id="temp-button">Set to Honolulu, HI temperature</button>
