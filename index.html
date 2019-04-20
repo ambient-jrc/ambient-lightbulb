@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Yeelight LED Console</title>
-    <link href="index.css" rel="stylesheet"/>
-    <script src="js/Collection.js"></script>
-    <script src="js/temperature.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/index.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Yeelight LED Console</title>
+        <link href="semantic-ui-css/semantic.min.css" rel="stylesheet" type="text/css"/>
+        <link href="index.css" rel="stylesheet"/>
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="semantic-ui-css/semantic.min.js"></script>
+        <script src="js/Collection.js"></script>
+        <script src="js/temperature.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/index.js"></script>
+    </head>
 <body>
 <div id="title-bar">
     <img src="128.png"/>
@@ -18,14 +21,18 @@
     <button id="close" href="#">&times;</button>
 </div>
 <div id="background-container">
-    <div id="button-grouping">
-            <button id="power-button">Toggle power</button>
-            <button id="temp-button">Set to Honolulu, HI temperature</button>
-            <textarea id="temp-input" tabindex="0" rows="1" cols="5"></textarea>
-            <button id="temp-debug">Set to temperature</button>
-            <button id="sleep-5">Sleep 5s</button>
-            <button id="sleep-30">Sleep 30s</button>
-            <button id="new-window">New Window</button>
+    <div class="ui vertical mini menu" id="button-grouping">
+            <a class="item" id="power-button">Toggle power</a>
+            <a class="item" id="temp-button">Set to Honolulu, HI temperature</a>
+            <div class="item">
+                <div class="ui action fluid input">
+                    <input type="text" id="temp-input">
+                    <div class="ui mini button" id="temp-debug">Set</div>
+                </div>
+            </div>
+            <a class="item" id="sleep-5">Sleep 5s</a>
+            <a class="item" id="sleep-30">Sleep 30s</a>
+            <a class="item" id="new-window">Lightbulb</a>
     </div>
 </div>
 </body>

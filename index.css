@@ -285,6 +285,7 @@ input {
 }
 
 #button-grouping {
+    position: absolute;
+    right: 0px;
     display: block;
-    width: 50%;
 }
