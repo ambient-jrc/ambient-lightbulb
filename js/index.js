@@ -27,6 +27,20 @@ const locations = [
   }     // Makaha
 ];    
 
+function createMarkers() {
+  var background = document.getElementById('background-container');
+
+  for (let i = 0; i < 5; i++) {
+    let marker = document.createElement('p');
+    marker.textContent = "" + i;
+    marker.id = i;
+    marker.style.top = (i * 100) + "px";
+    marker.style.left = (i * 100) + "px";
+    marker.style.position = "absolute";
+    background.appendChild(marker);
+  }
+}
+
 
 // Runtime machine for messaging other parts of the chrome app
 function rtm(message, callback) {
@@ -112,6 +126,8 @@ function init() {
       }
     }, onInitConnect);
   };
+
+  createMarkers();
 };
 
 
