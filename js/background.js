@@ -37,7 +37,7 @@ function createMainWindow() {
       left: 100,
       top: 100,
       width: 650,
-      height: 520
+      height: 580
     },
     hidden: true
   }, onInitWindow);
