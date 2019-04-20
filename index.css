@@ -277,6 +277,13 @@ input {
     background: #a5a5a2;
 }
 
+#background-container {
+    background: url('/assets/oahu.png') no-repeat center center fixed;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
 #button-grouping {
     display: block;
     width: 50%;
