@@ -69,6 +69,17 @@ function createMarkers(locations) {
   }
 }
 
+function createMarker(loc) {
+  var background = document.getElementById('background-container');
+
+  let marker = document.createElement('button');
+  marker.textContent = loc.name + ": " + convertTemp(loc.weather.main.temp) + "ºF"; 
+  marker.id = loc.id;
+  marker.style.top = loc.pos.y +  "px";
+  marker.style.left = loc.pos.x + "px";
+  marker.style.position = "absolute";
+  background.appendChild(marker);
+}
 
 // Runtime machine for messaging other parts of the chrome app
 function rtm(message, callback) {
@@ -163,7 +174,7 @@ function init() {
     }, onInitConnect);
   };
 
-  createMarkers(locations);
+  // createMarkers(locations);
 
   document.addEventListener("click", findMousePos);
 };
