@@ -59,7 +59,8 @@ function createMarkers(locations) {
   var background = document.getElementById('background-container');
 
   for (let loc of locations) {
-    let marker = document.createElement('button');
+    let marker = document.createElement('div');
+    marker.className = "tiny ui orange button";
     marker.textContent = loc.name; 
     marker.id = loc.id;
     marker.style.top = loc.pos.y +  "px";
