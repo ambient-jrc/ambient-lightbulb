@@ -172,7 +172,21 @@ function init() {
 
   // createMarkers(locations);
   let x = document.getElementById(locations[0].id);
-  console.log(x);
+  x.onclick = function() {
+    if(locations[0].weather.main == "Clouds" ) {
+          document.createElement("clouds.png");
+         console.log("did it");
+      }
+  };
+
+  function updateMarker(loc) {
+    var background = document.getElementById('background-container');
+
+    let marker = document.getElementById(loc.id);
+    marker.textContent = loc.name + ": " + Math.trunc(convertTemp(loc.weather.main.temp)) + "ºF";
+
+  }
+
 
   document.addEventListener("click", findMousePos);
 };
