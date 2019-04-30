@@ -150,6 +150,19 @@ function init() {
     yeelight_sleep_thirty();
   };
 
+ let honoBut = document.getElementById(locations[0].id);
+console.log(honoBut);
+// honoBut.onclick = function() {
+ //   if(locations[0].weather.main == "Clouds" ) {
+  //    document.createElement("clouds.png");
+   //   console.log("did it");
+    //}
+
+ //};
+
+  let wahButt = document.getElementById('wah-button');
+
+
   let newWindow = document.getElementById('new-window');
   newWindow.onclick = () => {
     chrome.app.window.create('connect.html', {
@@ -166,6 +179,7 @@ function init() {
   createMarkers(locations);
 
   document.addEventListener("click", findMousePos);
+
 };
 
 
