@@ -69,8 +69,6 @@ function retrieveWeather(locations) {
 function convertTemp(kelvin) {
   let fahr = ((kelvin - 273.15) * (9 / 5)) + 32;
   fahr = fahr.toFixed(2);
-  console.log(kelvin);
-  console.log(fahr);
   return fahr;
 }
 

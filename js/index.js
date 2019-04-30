@@ -30,7 +30,7 @@ const locations = [
   { id: "5847486",
     name: "Kailua",
     pos: {
-      x: 528,
+      x: 500,
       y: 370 
     }
 
@@ -60,21 +60,30 @@ function createMarkers(locations) {
 
   for (let loc of locations) {
     let marker = document.createElement('div');
-    marker.className = "tiny ui orange button";
-    marker.textContent = loc.name; 
+    let button = document.createElement('div');
+    let label = document.createElement('a');
+
+    marker.className = "ui labeled button";
+    button.className = "ui tiny secondary button";
+    label.className = "ui left pointing orange label";
+
+    button.textContent = loc.name; 
     marker.id = loc.id;
     marker.style.top = loc.pos.y +  "px";
     marker.style.left = loc.pos.x + "px";
     marker.style.position = "absolute";
+    marker.appendChild(button);
+    marker.appendChild(label);
     background.appendChild(marker);
   }
 }
 
 function updateMarker(loc) {
   var background = document.getElementById('background-container');
-
   let marker = document.getElementById(loc.id);
-  marker.textContent = loc.name + ": " + convertTemp(loc.weather.main.temp) + "ºF"; 
+  let label = marker.children[1] 
+
+  label.textContent = convertTemp(loc.weather.main.temp) + "ºF"; 
 }
 
 // Runtime machine for messaging other parts of the chrome app
@@ -126,37 +135,6 @@ function init() {
       togglePower();
   };
 
-  let tempButton = document.getElementById('temp-button');
-  tempButton.onclick = function() {
-    getTemp(function(temp) {
-    // anonymous callback function
-      try {
-        let obj = JSON.parse(temp);
-        tempBrightness(convertTemp(obj.main.temp));
-      } catch(error) {
-        console.log("error");
-      }
-    });
-  }
-
-  // for debugging the temperature functions
-  // able to enter your own temperature value
-  let tempDebug = document.getElementById('temp-debug');
-  let tempInput = document.getElementById('temp-input');
-  tempDebug.onclick = function() {
-    tempBrightness(parseInt(tempInput.value));
-  }
-
-
-  let sleepFive = document.getElementById('sleep-5');
-  sleepFive.onclick = function() {
-    yeelight_sleep_five();
-  };
-
-  let sleepThirty = document.getElementById('sleep-30');
-  sleepThirty.onclick = function() {
-    yeelight_sleep_thirty();
-  };
 
   let newWindow = document.getElementById('new-window');
   newWindow.onclick = () => {
@@ -190,7 +168,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         break;
     case 'add-device':
         listDevice(message.did, message.location);
-        console.log("device added?");
+        console.log("device added");
         break;
     }
   }
