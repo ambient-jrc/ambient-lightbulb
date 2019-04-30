@@ -124,6 +124,7 @@ function init() {
  
   createMarkers(locations);
   retrieveWeather(locations);
+  retrieveForecast(locations);
   
   var closeBox = document.getElementById('close');
   closeBox.onclick = function () {

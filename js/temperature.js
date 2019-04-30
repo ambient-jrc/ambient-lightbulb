@@ -1,3 +1,5 @@
+const forecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=";
+const currentURL = "https://api.openweathermap.org/data/2.5/weather?id=";
 // Temperature.js
 // For functions related to manipulating the lightbulb
 // as well as for sending messages to the lightbulb
@@ -39,9 +41,9 @@ function tempBrightness(temp) {
 // fetches a JSON from openweathermap.org based on the location given and
 // returns it to the callback function for it to use
 // API's temperatures are in kelvin
-function getTemp(locID, appID, callback) {
+function getTemp(type, locID, appID, callback) {
     const http = new XMLHttpRequest();
-    const url = "https://api.openweathermap.org/data/2.5/weather?id=" + locID + "&APPID=" + appID;
+    const url = type + locID + "&APPID=" + appID;
     http.open("GET", url);
     http.send();
 
@@ -52,11 +54,24 @@ function getTemp(locID, appID, callback) {
 
 function retrieveWeather(locations) {
   for (let loc of locations) {
-    getTemp(loc.id, appID, (temp) => {
+    getTemp(currentURL, loc.id, appID, (temp) => {
       try {
         let obj = JSON.parse(temp);
         loc.weather = obj;
         updateMarker(loc);
+      } catch(error) {
+        console.log(error);
+      }
+    });
+  }
+}
+
+function retrieveForecast(locations) {
+  for (let loc of locations) {
+    getTemp(forecastURL, loc.id, appID, (temp) => {
+      try {
+        let obj = JSON.parse(temp);
+        loc.forecast = obj;
       } catch(error) {
         console.log(error);
       }
