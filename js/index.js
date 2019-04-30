@@ -69,16 +69,11 @@ function createMarkers(locations) {
   }
 }
 
-function createMarker(loc) {
+function updateMarker(loc) {
   var background = document.getElementById('background-container');
 
-  let marker = document.createElement('button');
+  let marker = document.getElementById(loc.id);
   marker.textContent = loc.name + ": " + convertTemp(loc.weather.main.temp) + "ºF"; 
-  marker.id = loc.id;
-  marker.style.top = loc.pos.y +  "px";
-  marker.style.left = loc.pos.x + "px";
-  marker.style.position = "absolute";
-  background.appendChild(marker);
 }
 
 // Runtime machine for messaging other parts of the chrome app
@@ -117,6 +112,7 @@ function findMousePos(event) {
 // Bind the functions to the buttons
 function init() {
  
+  createMarkers(locations);
   retrieveWeather(locations);
   
   var closeBox = document.getElementById('close');
@@ -175,6 +171,8 @@ function init() {
   };
 
   // createMarkers(locations);
+  let x = document.getElementById(locations[0].id);
+  console.log(x);
 
   document.addEventListener("click", findMousePos);
 };

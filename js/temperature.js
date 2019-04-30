@@ -56,7 +56,7 @@ function retrieveWeather(locations) {
       try {
         let obj = JSON.parse(temp);
         loc.weather = obj;
-        createMarker(loc);
+        updateMarker(loc);
       } catch(error) {
         console.log(error);
       }
