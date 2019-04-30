@@ -282,6 +282,8 @@ input {
     background-size: cover;
     width: 100%;
     height: 100%;
+    z-index: 0;
+
 }
 
 #button-grouping {
@@ -289,4 +291,6 @@ input {
     margin-top: 10px;
     right: 10px;
     display: block;
+    z-index: 0;
+
 }

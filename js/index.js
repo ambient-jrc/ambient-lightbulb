@@ -53,7 +53,13 @@ const locations = [
     }
 
   }     // Makaha
-];    
+];
+//make images
+let clouds = document.createElement('image');
+clouds.style.width = '30px';
+clouds.style.height = '30px';
+clouds.style.zIndex = '10';
+clouds.style.url = '/assets/clouds.jpg';
 
 function createMarkers(locations) {
   var background = document.getElementById('background-container');
@@ -78,12 +84,20 @@ function createMarkers(locations) {
   }
 }
 
+
 function updateMarker(loc) {
   var background = document.getElementById('background-container');
   let marker = document.getElementById(loc.id);
-  let label = marker.children[1] 
+  let label = marker.children[1]
+ // let conditions = loc.weather.weather[0].main;
+//console.log(conditions);
 
-  label.textContent = convertTemp(loc.weather.main.temp) + "ºF"; 
+  label.textContent = convertTemp(loc.weather.main.temp) + "ºF";
+  if (loc.weather.weather[0].main == "Clouds") {
+    console.log(clouds);
+    label.appendChild(clouds);
+  }
+
 }
 
 // Runtime machine for messaging other parts of the chrome app
@@ -150,8 +164,23 @@ function init() {
   };
 
   // createMarkers(locations);
-  let x = document.getElementById(locations[0].id);
-  console.log(x);
+  for(let x = 0; x<locations.length; x++) {
+    let clickable = document.getElementById(locations[x].id);
+    clickable.onclick = function() {
+      let forecast = locations[x].weather.weather[0].main;
+      if (forecast == "Rain") {
+        console.log("rain");
+      } else if(forecast == "Clouds") {
+        console.log("clouds");
+      } else if(forecast == "Clear") {
+        console.log("clear");
+      } else if(forecast == "Thunderstorm") {
+        console.log("thunderstorm");
+      } else if(forecast == "Drizzle") {
+        console.log("drizzle");
+      }
+    }
+  }
 
   document.addEventListener("click", findMousePos);
 };
