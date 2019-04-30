@@ -172,8 +172,43 @@ function init() {
   };
 
   // createMarkers(locations);
-  let x = document.getElementById(locations[0].id);
-  console.log(x);
+  let sun = new Image(50, 50);
+  sun.src = 'sun.png';
+  let ctstorm = new Image(50, 50);
+  ctstorm.src = 'ctstorm.png';
+  let rain = new Image(50, 50);
+  rain.src = 'Rain.png';
+  let clouds = new Image(50, 50);
+  clouds.url = '/assets/clouds.png';
+  for(let x = 0; x<locations.length; x++) {
+    let clickable = document.getElementById(locations[x].id);
+    clickable.onclick = function() {
+      let forecast = locations[x].weather.weather[0].main;
+      if (forecast == "Rain") {
+        if(rain.style.display === "none") {
+          rain.style.display = "block";
+        } else {
+          rain.style.display = "none";
+        }
+        console.log("rain");
+      } else if(forecast == "Clouds") {
+        console.log("clouds");
+        if(clouds.display === "none") {
+          clouds.display = "block";
+        } else {
+          clouds.display = "none";
+        }
+      } else if(forecast == "Clear") {
+        console.log("clear");
+      } else if(forecast == "Thunderstorm") {
+        console.log("thunderstorm");
+      } else if(forecast == "Drizzle") {
+        console.log("drizzle");
+      }
+    }
+  }
+
+
 
   document.addEventListener("click", findMousePos);
 };
