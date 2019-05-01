@@ -6,7 +6,7 @@ const locations = [
     id: "5856195",
     name: "Honolulu",
     pos: {
-      x: 470,
+      x: 450,
       y: 487
     }
   },   // honolulu
@@ -30,7 +30,7 @@ const locations = [
   { id: "5847486",
     name: "Kailua",
     pos: {
-      x: 500,
+      x: 450,
       y: 370 
     }
 
@@ -62,18 +62,23 @@ function createMarkers(locations) {
     let marker = document.createElement('div');
     let button = document.createElement('div');
     let label = document.createElement('a');
+    let icon = document.createElement('a');
+    let temp = document.createElement('i');
 
     marker.className = "ui labeled button";
     button.className = "ui tiny secondary button";
     label.className = "ui left pointing orange label";
+    icon.className = label.className.slice().replace(" orange", "");
 
     button.textContent = loc.name; 
     marker.id = loc.id;
     marker.style.top = loc.pos.y +  "px";
     marker.style.left = loc.pos.x + "px";
     marker.style.position = "absolute";
+    icon.appendChild(temp);
     marker.appendChild(button);
     marker.appendChild(label);
+    marker.appendChild(icon);
     background.appendChild(marker);
   }
 }
@@ -83,6 +88,7 @@ function updateMarker(loc) {
   let marker = document.getElementById(loc.id);
   let button = marker.children[0];
   let label = marker.children[1];
+  let icon = marker.children[2];
 
   button.onclick = function() {
   let forecast = loc.weather.weather[0].main;
@@ -120,8 +126,26 @@ function updateMarker(loc) {
   }
 
   label.textContent = convertTemp(loc.weather.main.temp) + "ºF"; 
+  icon.children[0].className = getWeatherIcon(loc.weather.weather[0].main);
 }
 
+// Given a weather string, return the appropriate weather icon DOM element
+function getWeatherIcon(weather) {
+  let icon = ""; 
+
+  switch(weather) {
+    case "Clouds":
+      icon = "wi wi-cloud";
+      break;
+    case "Rain":
+      icon = "wi wi-rain";
+      break
+    default:
+      icon = "wi wi-day-sunny";
+  }
+
+  return icon;
+}
 // Runtime machine for messaging other parts of the chrome app
 function rtm(message, callback) {
   if (callback) {
@@ -160,7 +184,7 @@ function init() {
  
   createMarkers(locations);
   retrieveWeather(locations);
-  retrieveForecast(locations);
+  //retrieveForecast(locations);
   
   var closeBox = document.getElementById('close');
   closeBox.onclick = function () {
