@@ -12,32 +12,6 @@ function togglePower() {
   });
 }
 
-// changes the color temperature of the lightbulb based on the temperature
-function tempBrightness(temp) {
-//turn the power on, if already on, this will not turn it off
-//Needed because 'set_bright' only works if the bulb is on
-  let message;
-  if (temp < 65) {
-    message = '{"id":1,"method":"set_ct_abx","params":[6500, "smooth", 500]}';
-    rtm({
-      type: 'request',
-      message: message
-    });
-  } else if (temp > 75) {
-    message = '{"id":1,"method":"set_ct_abx","params":[2700, "smooth", 500]}';
-    rtm({
-      type: 'request',
-      message: message
-    });  
-  } else {
-    message = '{"id":1,"method":"set_ct_abx","params":[3500, "smooth", 500]}';
-    rtm({
-      type: 'request',
-      message: message
-    });  
-  }
-}
-
 // fetches a JSON from openweathermap.org based on the location given and
 // returns it to the callback function for it to use
 // API's temperatures are in kelvin
@@ -78,6 +52,46 @@ function retrieveForecast(locations) {
     });
   }
 }
+
+// return a brightness value based on the weather
+function getBrightness(weather) {
+  let brightness = "";
+
+  switch(weather) {
+    case "Clouds":
+      brightness = "35";
+      break;
+    case "Rain":
+      brightness = "20";
+      break
+    case "Thunderstorm":
+      brightness = "15";
+      break;
+    case "Drizzle":
+      brightness = "30";
+      icon = "wi wi-showers";
+      break;
+    default:
+      brightness = "50";
+  }
+
+  return brightness;
+}
+
+// changes the color temperature of the lightbulb based on the temperature
+function getColorTemp(temp) {
+//turn the power on, if already on, this will not turn it off
+//Needed because 'set_bright' only works if the bulb is on
+  let message;
+  if (temp < 65) {
+    return "2700";
+  } else if (temp > 85) {
+    return "6500";
+  } else {
+    return "" + (6500 - 190 * (temp - 65));
+  }
+}
+
 
 // function to convert an integer from kelvin to fahrenheit
 // formula: (K − 273.15) × 9/5 + 32 = °F

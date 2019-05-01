@@ -23,9 +23,17 @@
 </div>
 <div id="background-container">
     <div class="ui vertical mini menu" id="button-grouping">
-        <a class="item" id="current-weather">Current<i class="wi wi-day-sunny"></i>
-            </a>
-        <a class="item" id="forecast">Forecast</a>
+        <a class="item" id="current-weather">Current</a>
+        <div class="ui dropdown link item" id="forecast">
+            Forecast
+            <div class="menu">
+              <div class="item">Today</div>
+              <div class="item">Tomorrow</div>
+              <div class="item">+2 days</div>
+              <div class="item">+3 days</div>
+              <div class="item">+4 days</div>
+            </div>
+        </div>
         <div class="item">
             <div class="ui icon fluid buttons">
                 <button class="ui button" id="new-window">
