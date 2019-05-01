@@ -55,6 +55,7 @@ const locations = [
   }     // Makaha
 ];
 //make images
+
 let clouds = document.createElement('image');
 clouds.style.width = '30px';
 clouds.style.height = '30px';
@@ -94,8 +95,14 @@ function updateMarker(loc) {
 
   label.textContent = convertTemp(loc.weather.main.temp) + "ºF";
   if (loc.weather.weather[0].main == "Clouds") {
-    console.log(clouds);
-    label.appendChild(clouds);
+    console.log(loc);
+    console.log(label);
+    console.log(marker);
+    console.log(marker.children[1]);
+    marker.children[2] = clouds;
+    console.log(marker.children[2]);
+   // let img = document.createElement('image');
+   // marker.children[2].appendChild(clouds);
   }
 
 }
