@@ -81,7 +81,43 @@ function createMarkers(locations) {
 function updateMarker(loc) {
   var background = document.getElementById('background-container');
   let marker = document.getElementById(loc.id);
-  let label = marker.children[1] 
+  let button = marker.children[0];
+  let label = marker.children[1];
+
+  button.onclick = function() {
+  let forecast = loc.weather.weather[0].main;
+  if (forecast == "Rain") {
+    let message = '{"id":1,"method":"set_ct_abx","params":[5500, "smooth", 500]}';
+    rtm({
+  type: 'request',
+  message: message
+  });
+  } else if(forecast == "Clouds") {
+    let message = '{"id":1,"method":"set_ct_abx","params":[3000, "smooth", 500]}';
+    rtm({
+  type: 'request',
+  message: message
+  });
+  } else if(forecast == "Clear") {
+    let message = '{"id":1,"method":"set_ct_abx","params":[2700, "smooth", 500]}';
+    rtm({
+  type: 'request',
+  message: message
+  });
+      } else if(forecast == "Thunderstorm") {
+    let message = '{"id":1,"method":"set_ct_abx","params":[6500, "smooth", 500]}';
+    rtm({
+  type: 'request',
+  message: message
+  });
+      } else if(forecast == "Drizzle") {
+    let message = '{"id":1,"method":"set_ct_abx","params":[4500, "smooth", 500]}';
+    rtm({
+  type: 'request',
+  message: message
+  });
+      }
+  }
 
   label.textContent = convertTemp(loc.weather.main.temp) + "ºF"; 
 }
