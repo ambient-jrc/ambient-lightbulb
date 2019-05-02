@@ -1,5 +1,9 @@
 const forecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=";
 const currentURL = "https://api.openweathermap.org/data/2.5/weather?id=";
+const LOW_TEMP = 70;
+const HIGH_TEMP = 90;
+const coldRGB = [135, 206, 250];
+const warmRGB = [255, 165, 0];
 // Temperature.js
 // For functions related to manipulating the lightbulb
 // as well as for sending messages to the lightbulb
@@ -83,15 +87,38 @@ function getColorTemp(temp) {
 //turn the power on, if already on, this will not turn it off
 //Needed because 'set_bright' only works if the bulb is on
   let message;
-  if (temp < 65) {
+  if (temp < LOW_TEMP) {
     return "2700";
-  } else if (temp > 85) {
+  } else if (temp > HIGH_TEMP) {
     return "6500";
   } else {
-    return "" + (6500 - 190 * (temp - 65));
+    let increment = (6500 - 2700) / (HIGH_TEMP - LOW_TEMP);
+    return "" + (6500 - 190 * (temp - LOW_TEMP));
   }
 }
 
+// gets appropriate value for the temperature given
+// returns a number between the limits low and high
+function getColorValue(temp, low, high) {
+  // make sure that the temperature doesn't fall out of bounds  
+  temp = (temp < LOW_TEMP) ? LOW_TEMP : temp;
+  temp = (temp > HIGH_TEMP) ? HIGH_TEMP : temp;
+  // the (|| 1) is to make sure divisor is not 0
+  let divisor = (HIGH_TEMP - LOW_TEMP) || 1;
+  let color = low + (temp - LOW_TEMP) * ((high - low) / divisor);
+  
+  return color;
+}
+
+// given a temperature, returns an array with the appropriate
+// RGB values
+function tempRGB(temp) {
+  const rgb = [];
+  for (let i = 0; i < 3; i++) {
+    rgb.push(Math.floor(getColorValue(temp, coldRGB[i], warmRGB[i])));
+  }
+  return rgb;
+}
 
 // function to convert an integer from kelvin to fahrenheit
 // formula: (K − 273.15) × 9/5 + 32 = °F

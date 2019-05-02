@@ -67,8 +67,8 @@ function createMarkers(locations) {
 
     marker.className = "ui labeled button";
     button.className = "ui tiny secondary button";
-    label.className = "ui left pointing orange label";
-    icon.className = label.className.slice().replace(" orange", "");
+    label.className = "ui left pointing label";
+    icon.className = label.className.slice();
 
     button.textContent = loc.name; 
     marker.id = loc.id;
@@ -107,8 +107,17 @@ function updateMarker(loc) {
     });
   }
 
+  changeRGB(label, convertTemp(loc.weather.main.temp));
   label.textContent = convertTemp(loc.weather.main.temp) + "ºF"; 
   icon.children[0].className = getWeatherIcon(loc.weather.weather[0].main);
+}
+
+// Change the background color of the temperature label of the marker based
+// on its temperature
+// Cold is blue, warm is orange
+function changeRGB(label, temp) {
+  const rgb = tempRGB(temp);
+  label.style.backgroundColor = "rgb(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ")";
 }
 
 // Given a weather string, return the appropriate weather icon DOM element
