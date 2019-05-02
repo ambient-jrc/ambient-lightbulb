@@ -5,8 +5,18 @@ function init() {
  
   createMarkers(locations);
   retrieveWeather(locations);
-  retrieveForecast(locations);
+  retrieveForecast(locations, populateForecast);
   
+  let forecastButton = document.getElementById('forecast-menu');
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 8; j++) {
+      let button = document.createElement('div');
+      button.className = "item";
+      button.textContent = i * 8 + j;
+      forecastButton.children[i].children[0].appendChild(button);
+    }
+  }
+
   var closeBox = document.getElementById('close');
   closeBox.onclick = function () {
       chrome.app.window.current().close();
@@ -16,6 +26,13 @@ function init() {
   powerButton.onclick = function() {
       togglePower();
   };
+
+  let currentButton = document.getElementById('current-weather');
+  currentButton.onclick = function() {
+    for (let loc of locations) {
+      updateMarker(loc.weather.main.temp, loc.weather.weather[0].main, loc.id);
+    }
+  }
 
 
   let newWindow = document.getElementById('new-window');
@@ -43,6 +60,23 @@ function init() {
 ;
 
 };
+
+function populateForecast() {
+  // populate the forecast buttons
+  let forecastButton = document.getElementById('forecast-menu');
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 8; j++) {
+      let button = forecastButton.children[i].children[0].children[j];
+      button.textContent = locations[0].forecast.list[(8 * i + j)].dt_txt;
+      button.id = 8 * i + j;
+      button.onclick = () => {
+        for (let loc of locations) {
+          updateMarker(loc.forecast.list[button.id].main.temp, loc.forecast.list[button.id].weather[0].main, loc.id);
+        }
+      }
+    }
+  }
+}
 
 function createMarkers(locations) {
   var background = document.getElementById('background-container');
@@ -72,16 +106,16 @@ function createMarkers(locations) {
   }
 }
 
-function updateMarker(loc) {
+function updateMarker(locTemp, locWeather, locID) {
   var background = document.getElementById('background-container');
-  let marker = document.getElementById(loc.id);
+  let marker = document.getElementById(locID);
   let button = marker.children[0];
   let label = marker.children[1];
   let icon = marker.children[2];
 
   button.onclick = () => {
-    let weather = loc.weather.weather[0].main;
-    let temp = convertTemp(loc.weather.main.temp);
+    let weather = locWeather;
+    let temp = convertTemp(locTemp);
     // change color temperature based on temperature
     let message = '{"id":1,"method":"set_ct_abx","params":[' + getColorTemp(temp) + ', "smooth", 500]}';
     rtm({
@@ -96,10 +130,11 @@ function updateMarker(loc) {
     });
   }
 
-  changeRGB(label, convertTemp(loc.weather.main.temp));
-  label.textContent = convertTemp(loc.weather.main.temp) + "ºF"; 
-  icon.children[0].className = getWeatherIcon(loc.weather.weather[0].main);
+  changeRGB(label, convertTemp(locTemp));
+  label.textContent = convertTemp(locTemp) + "ºF"; 
+  icon.children[0].className = getWeatherIcon(locWeather);
 }
+
 
 // Change the background color of the temperature label of the marker based
 // on its temperature

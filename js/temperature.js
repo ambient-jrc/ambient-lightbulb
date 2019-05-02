@@ -33,7 +33,7 @@ function retrieveWeather(locations) {
       try {
         let obj = JSON.parse(temp);
         loc.weather = obj;
-        updateMarker(loc);
+        updateMarker(loc.weather.main.temp, loc.weather.weather[0].main, loc.id);
       } catch(error) {
         console.log(error);
       }
@@ -43,12 +43,13 @@ function retrieveWeather(locations) {
 
 // Given an array of locations, append each with a forecast object
 // queried from openweathermap
-function retrieveForecast(locations) {
+function retrieveForecast(locations, callback) {
   for (let loc of locations) {
     getTemp(forecastURL, loc.id, appID, (temp) => {
       try {
         let obj = JSON.parse(temp);
         loc.forecast = obj;
+        callback();
       } catch(error) {
         console.log(error);
       }
