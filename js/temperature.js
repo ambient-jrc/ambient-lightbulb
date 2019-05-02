@@ -1,9 +1,4 @@
-const forecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=";
-const currentURL = "https://api.openweathermap.org/data/2.5/weather?id=";
-const LOW_TEMP = 70;
-const HIGH_TEMP = 90;
-const coldRGB = [135, 206, 250];
-const warmRGB = [255, 165, 0];
+
 // Temperature.js
 // For functions related to manipulating the lightbulb
 // as well as for sending messages to the lightbulb
@@ -30,6 +25,8 @@ function getTemp(type, locID, appID, callback) {
     }
 }
 
+// Given an array of locations, append each with a weather object
+// queried from openweathermap
 function retrieveWeather(locations) {
   for (let loc of locations) {
     getTemp(currentURL, loc.id, appID, (temp) => {
@@ -44,6 +41,8 @@ function retrieveWeather(locations) {
   }
 }
 
+// Given an array of locations, append each with a forecast object
+// queried from openweathermap
 function retrieveForecast(locations) {
   for (let loc of locations) {
     getTemp(forecastURL, loc.id, appID, (temp) => {
@@ -92,8 +91,8 @@ function getColorTemp(temp) {
   } else if (temp > HIGH_TEMP) {
     return "6500";
   } else {
-    let increment = (6500 - 2700) / (HIGH_TEMP - LOW_TEMP);
-    return "" + (6500 - 190 * (temp - LOW_TEMP));
+    let increment = ((6500 - 2700) / (HIGH_TEMP - LOW_TEMP)) || 1;
+    return "" + (6500 - increment * (temp - LOW_TEMP));
   }
 }
 

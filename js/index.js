@@ -1,59 +1,48 @@
 const deviceList = [];
-// For reqeusting data from openweathermap
-const appID = config.API_KEY;
-const locations = [
-  {
-    id: "5856195",
-    name: "Honolulu",
-    pos: {
-      x: 450,
-      y: 487
-    }
-  },   // honolulu
-  {
-    id: "5853992",
-    name: "Wahiawa",
-    pos: {
-      x: 295,
-      y: 265 
-    }
-  },   // Wahiawa
-  { 
-    id: "5856194",
-    name: "Kapolei",
-    pos: {
-      x: 259,
-      y: 419 
-    }
 
-  },    // Kapolei
-  { id: "5847486",
-    name: "Kailua",
-    pos: {
-      x: 450,
-      y: 370 
-    }
+// Bind the functions to the buttons
+function init() {
+ 
+  createMarkers(locations);
+  retrieveWeather(locations);
+  // retrieveForecast(locations);
+  
+  var closeBox = document.getElementById('close');
+  closeBox.onclick = function () {
+      chrome.app.window.current().close();
+  };
 
-  },     // Kailua
-  {
-    id: "5852824",
-    name: "Pupukea",
-    pos: {
-      x: 259,
-      y: 99 
-    }
+  let powerButton = document.getElementById('power-button');
+  powerButton.onclick = function() {
+      togglePower();
+  };
 
-  },    // Pupukea
-  { 
-    id: "5850511",
-    name: "Makaha",
-    pos: {
-      x: 88,
-      y: 289 
-    }
 
-  }     // Makaha
-];    
+  let newWindow = document.getElementById('new-window');
+  newWindow.onclick = () => {
+    chrome.app.window.create('connect.html', {
+      id: 'connect-window',
+      minHeight: 300,
+      minWidth: 200,
+      bounds: {
+        height: 400,
+        width: 300
+      }
+    }, onInitConnect);
+  };
+
+  // createMarkers(locations);
+  let x = document.getElementById(locations[0].id);
+  console.log(x);
+
+  document.addEventListener("click", findMousePos);
+
+  // for the forecast dropdown menu
+  $('.ui.dropdown.link.item')
+  .dropdown()
+;
+
+};
 
 function createMarkers(locations) {
   var background = document.getElementById('background-container');
@@ -175,50 +164,6 @@ function findMousePos(event) {
   };
   console.log(mousePos);
 }
-
-// Bind the functions to the buttons
-function init() {
- 
-  createMarkers(locations);
-  retrieveWeather(locations);
-  // retrieveForecast(locations);
-  
-  var closeBox = document.getElementById('close');
-  closeBox.onclick = function () {
-      chrome.app.window.current().close();
-  };
-
-  let powerButton = document.getElementById('power-button');
-  powerButton.onclick = function() {
-      togglePower();
-  };
-
-
-  let newWindow = document.getElementById('new-window');
-  newWindow.onclick = () => {
-    chrome.app.window.create('connect.html', {
-      id: 'connect-window',
-      minHeight: 300,
-      minWidth: 200,
-      bounds: {
-        height: 400,
-        width: 300
-      }
-    }, onInitConnect);
-  };
-
-  // createMarkers(locations);
-  let x = document.getElementById(locations[0].id);
-  console.log(x);
-
-  document.addEventListener("click", findMousePos);
-
-  $('.ui.dropdown.link.item')
-  .dropdown()
-;
-
-};
-
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message) {
