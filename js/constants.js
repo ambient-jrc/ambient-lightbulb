@@ -4,8 +4,10 @@ const forecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=";
 const currentURL = "https://api.openweathermap.org/data/2.5/weather?id=";
 const LOW_TEMP = 75;
 const HIGH_TEMP = 85;
+const MID_TEMP = (LOW_TEMP + HIGH_TEMP) * .5
 const coldRGB = [135, 206, 250];
 const warmRGB = [255, 165, 0];
+const midRGB = [255, 255, 255];
 const locations = [
   {
     id: "5856195",

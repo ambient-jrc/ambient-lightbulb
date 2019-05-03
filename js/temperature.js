@@ -114,8 +114,16 @@ function getColorValue(temp, low, high) {
 // RGB values
 function tempRGB(temp) {
   const rgb = [];
+  let low, high;
+  if (temp < MID_TEMP) {
+    low = coldRGB.slice();
+    high = midRGB.slice();
+  } else {
+    low = midRGB.slice();
+    high = warmRGB.slice();
+  }
   for (let i = 0; i < 3; i++) {
-    rgb.push(Math.floor(getColorValue(temp, coldRGB[i], warmRGB[i])));
+    rgb.push(Math.floor(getColorValue(temp, low[i], high[i])));
   }
   return rgb;
 }
